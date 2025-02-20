@@ -1,5 +1,5 @@
 import { api } from '@/services/api';
-import { Cards } from '@/type/card';
+import { Card, Cards } from '@/type/card';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ type Error = {
 };
 
 export const useGetAllCards = () => {
-  const [data, setData] = useState<Cards>();
+  const [cards, setCards] = useState<Card[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<Error>();
@@ -18,9 +18,9 @@ export const useGetAllCards = () => {
     setIsLoading(true);
 
     try {
-      const { data } = await api<Cards>(`cards`);
-      setData(data);
-      return data;
+      const response = await api<Cards>(`cards`);
+      setCards(response.data.cards);
+      return response.data.cards;
     } catch (error) {
       const axiosError = error as AxiosError;
       setIsError(true);
@@ -39,7 +39,7 @@ export const useGetAllCards = () => {
   }, []);
 
   return {
-    data,
+    cards,
     isLoading,
     isError,
     error,
