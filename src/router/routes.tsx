@@ -1,8 +1,8 @@
-import { Layout } from "@/layouts/Layout";
-import { lazy, Suspense } from "react";
-import { Route, Switch } from "wouter";
+import { Layout } from '@/layouts/Layout';
+import { lazy, Suspense } from 'react';
+import { Route, Switch } from 'wouter';
 
-const NotFound = lazy(() => import("../components/NotFound/NotFound"));
+const NotFound = lazy(() => import('../components/NotFound/NotFound'));
 
 export const Routes = () => {
   return (
