@@ -2,7 +2,7 @@
 
 ## Overview
 
-Create a React CRUD app that fetches data from Magic The Gathering's API (https://docs.magicthegathering.io/).
+Create a React CRUD app that fetches data from [Magic The Gathering's API] (https://docs.magicthegathering.io/).
 
 ## Requirements
 
@@ -48,11 +48,11 @@ Clone the repository and install dependencies:
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/your-project.git
-cd your-project
+git clone https://github.com/thorgotothegym/magic-the-gathering
+cd magic-the-gathering
 
 # Install dependencies
-npm install # or yarn install
+pnpm install
 ```
 
 ## Development
@@ -66,6 +66,8 @@ pnpm run dev
 This will launch the application at `http://localhost:3000/`.
 
 ### Code Structure
+
+// TODO
 
 ```
 📦 magic-the-gathering
@@ -88,7 +90,7 @@ This will launch the application at `http://localhost:3000/`.
 To build the project for production:
 
 ```bash
-pnpm run build # or yarn build
+pnpm run build
 ```
 
 This will generate an optimized `dist/` folder ready for deployment.
@@ -121,10 +123,6 @@ This project includes a GitHub Actions pipeline for automated testing and deploy
 3. Commit changes (`git commit -m 'Add new feature'`).
 4. Push to the branch (`git push origin feature-branch`).
 5. Create a Pull Request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ## Contact
 
