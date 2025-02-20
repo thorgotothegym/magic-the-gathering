@@ -29,9 +29,13 @@ The Create, Update and Delete actions don't need to be permanent (nice to have).
 
 ## Features
 
+- CSS Variables and Modules
 - ...
 - ...
-- ...
+
+## Technologies
+
+- CSS Variables and Modules
 
 ## Prerequisites
 
@@ -63,7 +67,7 @@ To start the development server:
 pnpm run dev
 ```
 
-This will launch the application at `http://localhost:3000/`.
+This will launch the application at `http://localhost:5174/`.
 
 ### Code Structure
 
