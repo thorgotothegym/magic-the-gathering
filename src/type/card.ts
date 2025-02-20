@@ -21,4 +21,5 @@ export type Card = {
   artist: string;
   number: string;
   power?: string;
+  id: string;
 };
