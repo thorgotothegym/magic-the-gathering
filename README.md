@@ -1,50 +1,133 @@
-# React + TypeScript + Vite
+# Magic The Gathering
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+Create a React CRUD app that fetches data from [Magic The Gathering's API] (https://docs.magicthegathering.io/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requirements
 
-## Expanding the ESLint configuration
+### Typescript
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Create a card collection
 
-- Configure the top-level `parserOptions` property like this:
+User can add cards to collections (for example, having an add to favourites option).
+As a nice to have, the user can have multiple collections.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Read the cards
+
+User can view a list of cards provided by the API. No need to add pagination, as long as one main page
+is shown with some hards.
+
+### Update the collection name
+
+This is a nice to have.
+
+### Delete
+
+Delete cards from the collection and delete the collection itself.
+The Create, Update and Delete actions don't need to be permanent (nice to have).
+
+## Features
+
+- ...
+- ...
+- ...
+
+## Prerequisites
+
+Ensure you have the following installed:
+
+In order to use the project, you will need the following:
+
+- Install NVM [https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating]
+- Install pnpm [https://pnpm.io/en/installation]
+
+## Installation
+
+Clone the repository and install dependencies:
+
+```bash
+# Clone the repo
+git clone https://github.com/thorgotothegym/magic-the-gathering
+cd magic-the-gathering
+
+# Install dependencies
+pnpm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Development
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+To start the development server:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+pnpm run dev
 ```
+
+This will launch the application at `http://localhost:3000/`.
+
+### Code Structure
+
+// TODO
+
+```
+📦 magic-the-gathering
+├── 📂 src
+│   ├── 📂 components    # Reusable UI components
+│   ├── 📂 hooks         # Custom React hooks
+│   ├── 📂 features      # Application pages
+│   ├── 📂 services      # API calls and business logic
+│   ├── 📂 store         # Global state management
+│   ├── 📂 utils         # Utility functions and helpers
+│   ├── 📂 assets        # Static assets (images, icons, etc.)
+│   ├── App.tsx         # Main application entry
+│   ├── main.tsx        # React root rendering
+│   └── routes.ts       # Application routes
+└── ...
+```
+
+## Build & Deployment
+
+To build the project for production:
+
+```bash
+pnpm run build
+```
+
+This will generate an optimized `dist/` folder ready for deployment.
+
+## Testing
+
+Run tests with:
+
+```bash
+pnpm run test
+```
+
+## Linting & Formatting
+
+Ensure code consistency with:
+
+```bash
+pnpm run lint
+pnpm run format
+```
+
+## CI/CD Pipeline
+
+This project includes a GitHub Actions pipeline for automated testing and deployment. Configure `.github/workflows/main.yml` according to your deployment strategy.
+
+## Contribution Guidelines
+
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature-branch`).
+3. Commit changes (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a Pull Request.
+
+## Contact
+
+For any inquiries or issues, please reach out to [mail@mail.com](mail@mail.com) or open an issue on GitHub.
+
+---
+
+Happy coding! 🚀
