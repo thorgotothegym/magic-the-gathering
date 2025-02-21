@@ -1,0 +1,12 @@
+.card {
+  border: 1px solid var(--card-border);
+  border-radius: calc(var(--radius) + 4px);
+  padding: var(--card-padding);
+  & h3,
+  p {
+    text-align: center;
+  }
+  & img {
+    border-radius: 10px;
+  }
+}

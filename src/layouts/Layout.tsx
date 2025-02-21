@@ -1,14 +1,15 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
+
+import styles from './Layout.module.css';
 
 type Layout = {
   children: ReactNode;
 };
 
-export const Layout = ({ children }: Layout) => {
+export const Layout: FC<Layout> = ({ children }) => {
   return (
-    <div className="relative flex min-h-svh flex-col bg-current text-foreground">
-      <header>Header</header>
-      <main className="flex-1 p-6 bg-gray-100">{children}</main>
+    <div className={styles.layout}>
+      <main className={styles.layout__main}>{children}</main>
     </div>
   );
 };
