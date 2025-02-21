@@ -4,18 +4,19 @@ import { FC } from 'react';
 
 import styles from './Main.module.css';
 
-const Main: FC = () => {
+const CardList: FC = () => {
   const { cards, isLoading, isError, error } = useGetAllCards();
 
+  // TODO : Create alert message
   if (isLoading) return <>{isLoading}</>;
   if (isError) return <>{error?.message}</>;
 
   return (
     <section aria-labelledby="cards-list">
-      <div className={styles.main__title}>
+      <div className={styles.card__title}>
         <h2>Card List</h2>
       </div>
-      <div className={styles.main}>
+      <div className={styles.card}>
         {cards?.map(({ name, imageUrl, type, id }) => (
           <Card key={id} name={name} imageUrl={imageUrl} type={type} />
         ))}
@@ -23,4 +24,4 @@ const Main: FC = () => {
     </section>
   );
 };
-export default Main;
+export default CardList;
