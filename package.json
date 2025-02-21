@@ -12,6 +12,10 @@
     "preview": "vite preview",
     "format": "prettier --write ./src"
   },
+  "engines": {
+    "pnpm": "10.4.1",
+    "node": "20.17.0"
+  },
   "dependencies": {
     "react": "19.0.0",
     "react-dom": "19.0.0"
