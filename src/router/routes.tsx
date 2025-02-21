@@ -1,18 +1,20 @@
 import { Layout } from '@/layouts/Layout';
 import { lazy, Suspense } from 'react';
-import { Route, Switch } from 'wouter';
+import { Route, Router, useRoute } from 'wouter';
 
 const NotFound = lazy(() => import('../components/NotFound/NotFound'));
 const Main = lazy(() => import('../features/Main/Main'));
 
 export const Routes = () => {
+  const isMain = useRoute('/');
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Layout>
+      <Layout>
+        <Router base="">
           <Route path="" component={Main} />
-        </Layout>
-      </Switch>
+          {!isMain[0] && <NotFound />}
+        </Router>
+      </Layout>
     </Suspense>
   );
 };
