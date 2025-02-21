@@ -5,6 +5,7 @@ import { Collection as CollectionProps } from './type';
 
 import styles from './Collection.module.css';
 
+// TODO: Create a Modal?
 export const Collection: FC = () => {
   const [collections, setCollections] = useLocalStorage<CollectionProps[]>(
     'collections',
@@ -20,19 +21,33 @@ export const Collection: FC = () => {
   };
 
   const handleRemoveCollection = (id: number) => {
+    const confirmation = confirm(
+      'Are you sure you want to delete the collection?'
+    );
+    if (!confirmation) return;
     const removeCollection = collections.filter(
       (collection) => collection.id !== id
     );
     setCollections(removeCollection);
   };
 
+  const handleEditNameCollection = (id: number) => {
+    const newName = prompt('Please, write the new name of the collection');
+    if (newName) {
+      const editNameCollection = collections.map((collection) =>
+        collection.id === id ? { ...collection, name: newName } : collection
+      );
+      setCollections(editNameCollection);
+    }
+  };
+
   const toggleFavorite = (id: number) => {
-    const updatedCollections = collections.map((collection) =>
+    const addCollectionFavorite = collections.map((collection) =>
       collection.id === id
         ? { ...collection, isFavorite: !collection.isFavorite }
         : collection
     );
-    setCollections(updatedCollections);
+    setCollections(addCollectionFavorite);
   };
 
   return (
@@ -40,6 +55,7 @@ export const Collection: FC = () => {
       <button
         className={styles.collection__button}
         onClick={handleAddCollection}
+        aria-label="Create a New Collection"
       >
         + Create a New Collection
       </button>
@@ -51,11 +67,17 @@ export const Collection: FC = () => {
               {isFavorite ? '❤️' : '🤍'}
             </button>
             <button
+              arial-label="Edit"
+              onClick={() => handleEditNameCollection(id)}
+            >
+              Edit
+            </button>
+            <button
               aria-label="remove"
               className={styles.collection__delete}
               onClick={() => handleRemoveCollection(id)}
             >
-              X
+              Remove
             </button>
           </li>
         ))}
