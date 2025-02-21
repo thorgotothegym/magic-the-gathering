@@ -29,7 +29,7 @@ export const Collection: FC = () => {
   const toggleFavorite = (id: number) => {
     const updatedCollections = collections.map((collection) =>
       collection.id === id
-        ? { ...collection, favorite: !collection.favorite }
+        ? { ...collection, isFavorite: !collection.isFavorite }
         : collection
     );
     setCollections(updatedCollections);
@@ -37,15 +37,26 @@ export const Collection: FC = () => {
 
   return (
     <div className={styles.collection}>
-      <button onClick={handleAddCollection}>+ Create a New Collection</button>
-      <ul>
-        {collections.map(({ id, name, favorite }) => (
-          <li key={id}>
-            <span>{name}</span>
-            <button onClick={() => toggleFavorite(id)}>
-              {favorite ? 'Add Favorite' : 'Remove Favorite'}
+      <button
+        className={styles.collection__button}
+        onClick={handleAddCollection}
+      >
+        + Create a New Collection
+      </button>
+      <ul className={styles.collection__list}>
+        {collections.map(({ id, name, isFavorite }) => (
+          <li key={id} className={styles.collection__item}>
+            <span className={styles.collection__item__name}>{name}</span>
+            <button onClick={() => toggleFavorite(id)} aria-label="favorite">
+              {isFavorite ? '❤️' : '🤍'}
             </button>
-            <button onClick={() => handleRemoveCollection(id)}>Remove</button>
+            <button
+              aria-label="remove"
+              className={styles.collection__delete}
+              onClick={() => handleRemoveCollection(id)}
+            >
+              X
+            </button>
           </li>
         ))}
       </ul>
