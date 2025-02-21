@@ -3,6 +3,7 @@ import { useGetAllCards } from '@/hooks/useGetAllCards';
 import { FC } from 'react';
 
 import styles from './CardList.module.css';
+import Collection from '../Collections/Collection';
 
 const CardList: FC = () => {
   const { cards, isLoading, isError, error } = useGetAllCards();
@@ -13,9 +14,7 @@ const CardList: FC = () => {
 
   return (
     <section aria-labelledby="cards-list">
-      <div className={styles.card__title}>
-        <h2>Card List</h2>
-      </div>
+      <Collection />
       <div className={styles.card}>
         {cards?.map(({ name, imageUrl, type, id }) => (
           <Card key={id} name={name} imageUrl={imageUrl} type={type} />
