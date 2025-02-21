@@ -2,7 +2,7 @@ import { Card } from '@/components/Card/Card';
 import { useGetAllCards } from '@/hooks/useGetAllCards';
 import { FC } from 'react';
 
-import styles from './Main.module.css';
+import styles from './CardList.module.css';
 
 const CardList: FC = () => {
   const { cards, isLoading, isError, error } = useGetAllCards();
