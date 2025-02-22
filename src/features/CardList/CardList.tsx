@@ -1,17 +1,24 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { Card } from '@/components/Card/Card';
 import { useGetAllCards } from '@/hooks/useGetAllCards';
-
 import styles from './CardList.module.css';
 import { CardProps } from '@/components/Card/type';
 import { addCardToCollection } from '@/hooks/useCollection';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { Collection as CollectionProps } from '@/features/Collections/type.ts';
 import Collection from '../Collections/Collection';
+import { Modal } from '@/components/Modal/Modal';
 
 const CardList: FC = () => {
   const { cards, isLoading, isError, error } = useGetAllCards();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<CardProps | null>(null);
+
+  const [selectedCollectionId, setSelectedCollectionId] = useState<
+    number | null
+  >(null);
 
   const [collections, setCollections] = useLocalStorage<CollectionProps[]>(
     'collections',
@@ -19,14 +26,15 @@ const CardList: FC = () => {
   );
 
   const handleAddCardToCollection = (card: CardProps) => {
-    const collectionName = prompt(
-      'Enter the collection name to add this card to:'
-    );
-    if (!collectionName) return;
+    setSelectedCard(card);
+    setIsModalOpen(true);
+  };
 
-    // Retrieve all the information about the collection name
+  const handleConfirmAddCard = () => {
+    if (!selectedCard || selectedCollectionId === null) return;
+
     const nameCollection = collections.find(
-      (col) => col.name === collectionName
+      (col) => col.id === selectedCollectionId
     );
     if (!nameCollection) {
       alert('Collection not found!');
@@ -36,12 +44,12 @@ const CardList: FC = () => {
     const updatedCollections = addCardToCollection(
       collections,
       nameCollection.id,
-      card
+      selectedCard
     );
     setCollections(updatedCollections);
+    setIsModalOpen(false);
   };
 
-  // TODO : Create alert message
   if (isLoading) return <>{isLoading}</>;
   if (isError) return <>{error?.message}</>;
 
@@ -62,7 +70,33 @@ const CardList: FC = () => {
           />
         ))}
       </div>
+      {isModalOpen && selectedCard && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Add Card to Collection"
+        >
+          <p>Select a collection to add {selectedCard.name}:</p>
+          <select
+            onChange={(e) => setSelectedCollectionId(Number(e.target.value))}
+          >
+            <option value="">Select Collection</option>
+            {collections.map((col) => (
+              <option key={col.id} value={col.id}>
+                {col.name}
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={handleConfirmAddCard}
+            disabled={!selectedCollectionId}
+          >
+            Confirm
+          </button>
+        </Modal>
+      )}
     </section>
   );
 };
+
 export default CardList;

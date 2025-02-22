@@ -1,26 +1,40 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { Collection as CollectionProps } from './type';
 import styles from './Collection.module.css';
 import {
   removeCardFromCollection,
-  addCardToCollection,
-  CardProps,
+  /*   addCardToCollection,
+  CardProps, */
 } from '@/hooks/useCollection';
+import { Modal } from '@/components/Modal/Modal';
 
+// TODO: Needs refactoring
 export const Collection: FC = () => {
   const [collections, setCollections] = useLocalStorage<CollectionProps[]>(
     'collections',
     []
   );
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState<boolean>(false);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<
+    number | null
+  >(null);
+
+  const [newCollectionName, setNewCollectionName] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const [isModalOpenRemove, setIsModalOpenRemove] = useState(false);
 
   const handleAddCollection = () => {
-    const name = prompt('Please enter the collection name');
-    if (!name) return;
+    setIsCreateModalOpen(true);
+  };
+
+  const handleConfirmAddCollection = () => {
+    if (!newCollectionName) return;
 
     const createNewCollection: CollectionProps = {
       id: Math.floor(Math.random() * 1000000),
-      name,
+      name: newCollectionName,
       cards: [],
     };
 
@@ -29,28 +43,27 @@ export const Collection: FC = () => {
       'collections',
       JSON.stringify([...collections, createNewCollection])
     );
-  };
-
-  const handleRemoveCollection = (id: number) => {
-    if (!confirm('Are you sure you want to delete the collection?')) return;
-
-    const removeCollectionWithId = collections.filter(
-      (collection) => collection.id !== id
-    );
-
-    setCollections(removeCollectionWithId);
-    localStorage.setItem('collections', JSON.stringify(removeCollectionWithId));
+    setIsCreateModalOpen(false);
+    setNewCollectionName('');
   };
 
   const handleEditNameCollection = (id: number) => {
-    const newName = prompt('Please, write the new name of the collection');
-    if (!newName) return;
+    setSelectedCollectionId(id);
+    setIsModalOpenEdit(true);
+  };
+
+  const handleConfirmEdit = () => {
+    if (!newCollectionName || selectedCollectionId === null) return;
 
     const updateNameCollection = collections.map((collection) =>
-      collection.id === id ? { ...collection, name: newName } : collection
+      collection.id === selectedCollectionId
+        ? { ...collection, name: newCollectionName }
+        : collection
     );
 
     setCollections(updateNameCollection);
+    setIsModalOpenEdit(false);
+    setNewCollectionName('');
   };
 
   const toggleFavorite = (id: number) => {
@@ -63,22 +76,39 @@ export const Collection: FC = () => {
     setCollections(updatedCollections);
   };
 
-  const handleAddCard = (collectionId: number, card: CardProps) => {
+  /*   const handleAddCard = (collectionId: number, card: CardProps) => {
     const updatedCollections = addCardToCollection(
       collections,
       collectionId,
       card
     );
     setCollections(updatedCollections);
-  };
+  }; */
 
-  const handleRemoveCard = (collectionId: number, cardId: number) => {
+  const handleRemoveCard = (collectionId: number, cardId: string) => {
     const updatedCollections = removeCardFromCollection(
       collections,
       collectionId,
       cardId
     );
     setCollections(updatedCollections);
+  };
+
+  const handleRemoveCollection = (id: number) => {
+    setSelectedCollectionId(id);
+    setIsModalOpenRemove(true);
+  };
+
+  const handleConfirmRemoveCollection = () => {
+    if (selectedCollectionId === null) return;
+
+    const removeCollectionWithId = collections.filter(
+      (collection) => collection.id !== selectedCollectionId
+    );
+    setCollections(removeCollectionWithId);
+    localStorage.setItem('collections', JSON.stringify(removeCollectionWithId));
+    setIsModalOpenRemove(false);
+    setSelectedCollectionId(null);
   };
 
   return (
@@ -110,29 +140,12 @@ export const Collection: FC = () => {
             >
               Remove
             </button>
-            <button
-              onClick={() => {
-                const cardId = prompt('Enter the card ID to add:');
-                if (cardId) {
-                  handleAddCard(id, {
-                    id: String(cardId),
-                    name: 'New Card',
-                    imageUrl: '',
-                    type: '',
-                  });
-                }
-              }}
-            >
-              Add Card to Collection
-            </button>
             {cards.length > 0 && (
               <ul className={styles.collection__cards}>
                 {cards.map((card) => (
                   <li key={card.id} className={styles.collection__card}>
                     <span>{card.name}</span>
-                    <button
-                      onClick={() => handleRemoveCard(id, Number(card.id))}
-                    >
+                    <button onClick={() => handleRemoveCard(id, card.id)}>
                       Remove Card
                     </button>
                   </li>
@@ -142,6 +155,60 @@ export const Collection: FC = () => {
           </li>
         ))}
       </ul>
+      {isModalOpenEdit && (
+        <Modal
+          isOpen={isModalOpenEdit}
+          onClose={() => setIsModalOpenEdit(false)}
+          title="Edit Collection Name"
+        >
+          <input
+            type="text"
+            value={newCollectionName}
+            onChange={(event) => {
+              const { value } = event.target;
+              setNewCollectionName(value);
+            }}
+            placeholder="New collection name"
+          />
+          <button onClick={handleConfirmEdit} disabled={!newCollectionName}>
+            Confirm
+          </button>
+        </Modal>
+      )}
+      {isCreateModalOpen && (
+        <Modal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          title="Create New Collection"
+        >
+          <input
+            type="text"
+            value={newCollectionName}
+            onChange={(e) => setNewCollectionName(e.target.value)}
+            placeholder="Collection name"
+          />
+          <button
+            onClick={handleConfirmAddCollection}
+            disabled={!newCollectionName}
+          >
+            Create
+          </button>
+        </Modal>
+      )}
+      {isModalOpenRemove && (
+        <Modal
+          isOpen={isModalOpenRemove}
+          onClose={() => setIsModalOpenRemove(false)}
+          title="Remove Collection"
+        >
+          <p>
+            This action cannot be undone. Are you sure you want to delete this
+            collection?
+          </p>
+          <button onClick={handleConfirmRemoveCollection}>Yes, Delete</button>
+          <button onClick={() => setIsModalOpenRemove(false)}>Cancel</button>
+        </Modal>
+      )}
     </div>
   );
 };
