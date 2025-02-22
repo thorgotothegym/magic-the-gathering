@@ -122,20 +122,26 @@ export const Collection: FC = () => {
       </button>
       <ul className={styles.collection__list}>
         {collections.map(({ id, name, isFavorite, cards }) => (
-          <li key={id} className={styles.collection__item}>
+          <li
+            key={id}
+            className={`${styles.collection__item} ${isFavorite ? styles.collection__favorite : ''}`}
+          >
             <span className={styles.collection__item__name}>{name}</span>
-            <button onClick={() => toggleFavorite(id)} aria-label="favorite">
+            <button
+              onClick={() => toggleFavorite(id)}
+              aria-label={`Add ${name} to favorite`}
+            >
               {isFavorite ? '❤️' : '🤍'}
             </button>
             <button
-              aria-label="Edit"
+              aria-label={`change ${name.toUpperCase()}'s name to a new one`}
               onClick={() => handleEditNameCollection(id)}
             >
               Edit
             </button>
             <button
-              aria-label="Remove"
-              className={styles.collection__delete}
+              aria-label={`Remove ${name}`}
+              className={`${styles.collection__delete} danger`}
               onClick={() => handleRemoveCollection(id)}
             >
               Remove
@@ -145,7 +151,10 @@ export const Collection: FC = () => {
                 {cards.map((card) => (
                   <li key={card.id} className={styles.collection__card}>
                     <span>{card.name}</span>
-                    <button onClick={() => handleRemoveCard(id, card.id)}>
+                    <button
+                      aria-label={`Remove Card: ${name}`}
+                      onClick={() => handleRemoveCard(id, card.id)}
+                    >
                       Remove Card
                     </button>
                   </li>
@@ -168,7 +177,7 @@ export const Collection: FC = () => {
               const { value } = event.target;
               setNewCollectionName(value);
             }}
-            placeholder="New collection name"
+            placeholder="Collection name"
           />
           <button onClick={handleConfirmEdit} disabled={!newCollectionName}>
             Confirm
@@ -206,7 +215,12 @@ export const Collection: FC = () => {
             collection?
           </p>
           <button onClick={handleConfirmRemoveCollection}>Yes, Delete</button>
-          <button onClick={() => setIsModalOpenRemove(false)}>Cancel</button>
+          <button
+            className="danger"
+            onClick={() => setIsModalOpenRemove(false)}
+          >
+            Cancel
+          </button>
         </Modal>
       )}
     </div>
