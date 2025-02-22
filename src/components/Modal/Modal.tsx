@@ -1,15 +1,10 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { ModalProps } from '@/components/Modal/type';
 
 import styles from './Modal.module.css';
 
 export const Modal: FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
-  const isOpenModal = () => {
-    if (!isOpen) return null;
-  };
-  useEffect(() => {
-    isOpenModal();
-  }, []);
+  if (!isOpen) return null;
   return (
     <div role="alertdialog" className={styles.modal__overlay} onClick={onClose}>
       <div
