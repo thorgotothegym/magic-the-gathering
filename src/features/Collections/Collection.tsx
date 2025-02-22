@@ -4,8 +4,8 @@ import { Collection as CollectionProps } from './type';
 import styles from './Collection.module.css';
 import {
   removeCardFromCollection,
-  addCardToCollection,
-  CardProps,
+  /*   addCardToCollection,
+  CardProps, */
 } from '@/hooks/useCollection';
 import { Modal } from '@/components/Modal/Modal';
 
@@ -76,14 +76,14 @@ export const Collection: FC = () => {
     setCollections(updatedCollections);
   };
 
-  const handleAddCard = (collectionId: number, card: CardProps) => {
+  /*   const handleAddCard = (collectionId: number, card: CardProps) => {
     const updatedCollections = addCardToCollection(
       collections,
       collectionId,
       card
     );
     setCollections(updatedCollections);
-  };
+  }; */
 
   const handleRemoveCard = (collectionId: number, cardId: string) => {
     const updatedCollections = removeCardFromCollection(
