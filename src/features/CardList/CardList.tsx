@@ -55,6 +55,7 @@ const CardList: FC = () => {
               handleAddCardToCollection({ id, name, imageUrl, type })
             }
             id={id}
+            key={id}
             name={name}
             imageUrl={imageUrl}
             type={type}
