@@ -9,6 +9,7 @@ import {
 } from '@/hooks/useCollection';
 import { Modal } from '@/components/Modal/Modal';
 
+// TODO: Needs refactoring
 export const Collection: FC = () => {
   const [collections, setCollections] = useLocalStorage<CollectionProps[]>(
     'collections',
@@ -21,6 +22,8 @@ export const Collection: FC = () => {
 
   const [newCollectionName, setNewCollectionName] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const [isModalOpenRemove, setIsModalOpenRemove] = useState(false);
 
   const handleAddCollection = () => {
     setIsCreateModalOpen(true);
@@ -42,16 +45,6 @@ export const Collection: FC = () => {
     );
     setIsCreateModalOpen(false);
     setNewCollectionName('');
-  };
-
-  const handleRemoveCollection = (id: number) => {
-    if (!confirm('Are you sure you want to delete the collection?')) return;
-
-    const removeCollectionWithId = collections.filter(
-      (collection) => collection.id !== id
-    );
-    setCollections(removeCollectionWithId);
-    localStorage.setItem('collections', JSON.stringify(removeCollectionWithId));
   };
 
   const handleEditNameCollection = (id: number) => {
@@ -99,6 +92,23 @@ export const Collection: FC = () => {
       cardId
     );
     setCollections(updatedCollections);
+  };
+
+  const handleRemoveCollection = (id: number) => {
+    setSelectedCollectionId(id);
+    setIsModalOpenRemove(true);
+  };
+
+  const handleConfirmRemoveCollection = () => {
+    if (selectedCollectionId === null) return;
+
+    const removeCollectionWithId = collections.filter(
+      (collection) => collection.id !== selectedCollectionId
+    );
+    setCollections(removeCollectionWithId);
+    localStorage.setItem('collections', JSON.stringify(removeCollectionWithId));
+    setIsModalOpenRemove(false);
+    setSelectedCollectionId(null);
   };
 
   return (
@@ -183,6 +193,20 @@ export const Collection: FC = () => {
           >
             Create
           </button>
+        </Modal>
+      )}
+      {isModalOpenRemove && (
+        <Modal
+          isOpen={isModalOpenRemove}
+          onClose={() => setIsModalOpenRemove(false)}
+          title="Remove Collection"
+        >
+          <p>
+            This action cannot be undone. Are you sure you want to delete this
+            collection?
+          </p>
+          <button onClick={handleConfirmRemoveCollection}>Yes, Delete</button>
+          <button onClick={() => setIsModalOpenRemove(false)}>Cancel</button>
         </Modal>
       )}
     </div>
