@@ -29,6 +29,17 @@
   --input: 240 5.9% 90%;
   --ring: 240 5.9% 10%;
   --radius: 0.5rem;
+
+  --bg-dark: rgba(0, 0, 0, 0.5);
+  --bg-none: none;
+  --bg-white: #fff;
+
+  --spacing-n: 20px;
+  --spacing-s: 10px;
+
+  --border-radius: 8px;
+
+  --font-family: 'Roboto', sans-serif;
 }
 
 * {
