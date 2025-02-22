@@ -4,34 +4,14 @@
 
 Create a React CRUD app that fetches data from [Magic The Gathering's API] (https://docs.magicthegathering.io/).
 
-## Requirements
-
-### Typescript
-
-### Create a card collection
-
-User can add cards to collections (for example, having an add to favourites option).
-As a nice to have, the user can have multiple collections.
-
-### Read the cards
-
-User can view a list of cards provided by the API. No need to add pagination, as long as one main page
-is shown with some hards.
-
-### Update the collection name
-
-This is a nice to have.
-
-### Delete
-
-Delete cards from the collection and delete the collection itself.
-The Create, Update and Delete actions don't need to be permanent (nice to have).
-
 ## Features
 
-- CSS Variables and Modules
-- ...
-- ...
+- Read the cards - User can view a list of cards provided by the API. No need to add pagination, as long as one main page
+  is shown with some hards. (Done)
+- Create a card collection - User can add cards to collections (for example, having an add to favourites option).
+  As a nice to have, the user can have multiple collections. (Done)
+- Update the collection name . This is a nice to have. (Done)
+- Delete cards from the collection and delete the collection itself. (Done)
 
 ## Technologies
 
