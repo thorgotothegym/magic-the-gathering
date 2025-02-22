@@ -13,8 +13,6 @@
   --card-border: grey;
   --card-padding: 5px;
   --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
   --primary: 240 5.9% 10%;
   --primary-foreground: 0 0% 98%;
   --secondary: 240 4.8% 95.9%;
@@ -26,6 +24,7 @@
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
   --border: 240 5.9% 90%;
+  --border-favorite: pink;
   --input: 240 5.9% 90%;
   --ring: 240 5.9% 10%;
   --radius: 0.5rem;
@@ -46,4 +45,44 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+button {
+  font-family: var(--font-family);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: hsl(var(--secondary) / 0.9);
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+
+button.danger {
+  background-color: hsl(var(--destructive) / 0.9);
+  color: hsl(var(--destructive-foreground));
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+
+select {
+  font-family: var(--font-family);
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+input {
+  font-family: var(--font-family);
+  background-color: hsl(var(--secondary) / 0.9);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+}
+
+ul li {
+  list-style: none;
 }
