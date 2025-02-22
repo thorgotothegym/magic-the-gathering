@@ -16,19 +16,25 @@ const CardList: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardProps | null>(null);
 
+  const [selectedCollectionId, setSelectedCollectionId] = useState<
+    number | null
+  >(null);
+
   const [collections, setCollections] = useLocalStorage<CollectionProps[]>(
     'collections',
     []
   );
 
   const handleAddCardToCollection = (card: CardProps) => {
-    const collectionName = prompt(
-      'Enter the collection name to add this card to:'
-    );
-    if (!collectionName) return;
-    // Retrieve all the information about the collection name
+    setSelectedCard(card);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmAddCard = () => {
+    if (!selectedCard || selectedCollectionId === null) return;
+
     const nameCollection = collections.find(
-      (col) => col.name === collectionName
+      (col) => col.id === selectedCollectionId
     );
     if (!nameCollection) {
       alert('Collection not found!');
@@ -38,12 +44,10 @@ const CardList: FC = () => {
     const updatedCollections = addCardToCollection(
       collections,
       nameCollection.id,
-      card
+      selectedCard
     );
     setCollections(updatedCollections);
-
-    setSelectedCard(card);
-    setIsModalOpen(true);
+    setIsModalOpen(false);
   };
 
   if (isLoading) return <>{isLoading}</>;
@@ -72,7 +76,23 @@ const CardList: FC = () => {
           onClose={() => setIsModalOpen(false)}
           title="Add Card to Collection"
         >
-          <p>{selectedCard.name} has been added to the collection.</p>
+          <p>Select a collection to add {selectedCard.name}:</p>
+          <select
+            onChange={(e) => setSelectedCollectionId(Number(e.target.value))}
+          >
+            <option value="">Select Collection</option>
+            {collections.map((col) => (
+              <option key={col.id} value={col.id}>
+                {col.name}
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={handleConfirmAddCard}
+            disabled={!selectedCollectionId}
+          >
+            Confirm
+          </button>
         </Modal>
       )}
     </section>
