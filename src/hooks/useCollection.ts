@@ -24,7 +24,7 @@ export const addCardToCollection = (
 export const removeCardFromCollection = (
   collections: Collection[],
   collectionId: number,
-  cardId: number
+  cardId: string
 ): Collection[] => {
   const updatedCollections = collections.map((collection) => {
     if (collection.id === collectionId) {
@@ -36,6 +36,6 @@ export const removeCardFromCollection = (
     return collection;
   });
 
-  console.log('Carta eliminada correctamente');
+  console.log('Carta eliminada correctamente', { collectionId, cardId });
   return updatedCollections;
 };

@@ -92,7 +92,7 @@ export const Collection: FC = () => {
     setCollections(updatedCollections);
   };
 
-  const handleRemoveCard = (collectionId: number, cardId: number) => {
+  const handleRemoveCard = (collectionId: number, cardId: string) => {
     const updatedCollections = removeCardFromCollection(
       collections,
       collectionId,
@@ -135,9 +135,7 @@ export const Collection: FC = () => {
                 {cards.map((card) => (
                   <li key={card.id} className={styles.collection__card}>
                     <span>{card.name}</span>
-                    <button
-                      onClick={() => handleRemoveCard(id, Number(card.id))}
-                    >
+                    <button onClick={() => handleRemoveCard(id, card.id)}>
                       Remove Card
                     </button>
                   </li>
