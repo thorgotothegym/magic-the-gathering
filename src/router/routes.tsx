@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react';
 import { Route, Router, useRoute } from 'wouter';
 
 const NotFound = lazy(() => import('../components/NotFound/NotFound'));
-const Main = lazy(() => import('../features/Main/Main'));
+const CardList = lazy(() => import('../features/CardList/CardList'));
 
 export const Routes = () => {
   const isMain = useRoute('/');
@@ -11,7 +11,7 @@ export const Routes = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Layout>
         <Router base="">
-          <Route path="" component={Main} />
+          <Route path="" component={CardList} />
           {!isMain[0] && <NotFound />}
         </Router>
       </Layout>
