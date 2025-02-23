@@ -1,0 +1,42 @@
+import { render, screen } from '@testing-library/react';
+import { describe, expect, test, vi } from 'vitest';
+import { Modal } from '@/components/Modal/Modal';
+import '@testing-library/jest-dom';
+
+const renderModal = (customProps = {}) => {
+  const defaultProps = {
+    isOpen: true,
+    onClose: vi.fn(),
+    title: 'Testing Modal',
+    children: (
+      <div>
+        <p>Modal Content</p>
+        <button>Confirm</button>
+        <button>Cancel</button>
+      </div>
+    ),
+  };
+  return render(<Modal {...defaultProps} {...customProps} />);
+};
+
+describe('Modal', () => {
+  test('should display component when open', () => {
+    renderModal();
+
+    expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+    expect(screen.getByText('Testing Modal')).toBeInTheDocument();
+    expect(screen.getByText('Modal Content')).toBeInTheDocument();
+  });
+
+  test('Should does not render when closed', () => {
+    renderModal({ isOpen: false });
+
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+  });
+  test('renders buttons inside modal', () => {
+    renderModal();
+
+    expect(screen.getByText('Confirm')).toBeInTheDocument();
+    expect(screen.getByText('Cancel')).toBeInTheDocument();
+  });
+});
