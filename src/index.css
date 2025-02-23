@@ -18,8 +18,14 @@
   --border-favorite: pink;
   --radius: 0.5rem;
 
+  --spacing-none: 0;
   --spacing-n: 20px;
+  --spacing-s: 10px;
   --spacing-xs: 5px;
+
+  --bg-dark: rgba(0, 0, 0, 0.5);
+  --bg-none: none;
+  --bg-white: #fff;
 
   --border-radius: 8px;
   --border-radius-card: 10px;
