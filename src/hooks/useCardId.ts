@@ -7,15 +7,18 @@ type Error = {
   message: string;
 };
 
-type CardId = {
-  card: {
-    name: string;
-    multiverseid: string;
-  };
+type Card = {
+  name: string;
+  id: string;
+  type: string;
+};
+
+export type useCardIdResponse = {
+  card: Card;
 };
 
 export const useCardId = (id: number) => {
-  const [card, setCard] = useState<CardId>();
+  const [card, setCard] = useState<useCardIdResponse>();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -26,7 +29,7 @@ export const useCardId = (id: number) => {
     setIsLoading(true);
 
     try {
-      const response = await api<CardId>(`cards/${id}`);
+      const response = await api<useCardIdResponse>(`cards/${id}`);
       setCard(response.data);
       return response.data;
     } catch (error) {
