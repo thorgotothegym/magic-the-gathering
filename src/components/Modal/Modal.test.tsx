@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test, vi } from 'vitest';
 import { Modal } from '@/components/Modal/Modal';
+import { ModalProps } from './type';
 import '@testing-library/jest-dom';
 
-const renderModal = (customProps = {}) => {
-  const defaultProps = {
+const renderModal = (overRide = {}) => {
+  const defaultProps: ModalProps = {
     isOpen: true,
     onClose: vi.fn(),
     title: 'Testing Modal',
@@ -16,7 +17,7 @@ const renderModal = (customProps = {}) => {
       </div>
     ),
   };
-  return render(<Modal {...defaultProps} {...customProps} />);
+  return render(<Modal {...defaultProps} {...overRide} />);
 };
 
 describe('Modal', () => {
