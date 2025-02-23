@@ -206,9 +206,10 @@ export const Collection: FC = () => {
               const { value } = event.target;
               setNewCollectionName(value);
             }}
-            placeholder="Collection name"
+            placeholder="Name of the new collection"
           />
           <button
+            className="spacing-xs-ml spacing-xs-mb"
             onClick={handleConfirmAddCollection}
             disabled={!newCollectionName}
           >
