@@ -168,16 +168,18 @@ export const Collection: FC = () => {
         <Modal
           isOpen={isModalOpenEdit}
           onClose={() => setIsModalOpenEdit(false)}
-          title="Edit Collection Name"
+          title={`What name do you want to give to this collection?`}
         >
           <input
             type="text"
+            maxLength={15}
+            minLength={4}
             value={newCollectionName}
             onChange={(event) => {
               const { value } = event.target;
               setNewCollectionName(value);
             }}
-            placeholder="Collection name"
+            placeholder="New collection name"
           />
           <button onClick={handleConfirmEdit} disabled={!newCollectionName}>
             Confirm
@@ -192,8 +194,13 @@ export const Collection: FC = () => {
         >
           <input
             type="text"
+            maxLength={15}
+            minLength={4}
             value={newCollectionName}
-            onChange={(e) => setNewCollectionName(e.target.value)}
+            onChange={(event) => {
+              const { value } = event.target;
+              setNewCollectionName(value);
+            }}
             placeholder="Collection name"
           />
           <button
