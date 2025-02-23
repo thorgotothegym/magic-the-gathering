@@ -10,11 +10,12 @@ type Error = {
 type CardId = {
   card: {
     name: string;
+    multiverseid: string;
   };
 };
 
 export const useCardId = (id: number) => {
-  const [cardName, setCardName] = useState<string>();
+  const [card, setCard] = useState<CardId>();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -26,9 +27,8 @@ export const useCardId = (id: number) => {
 
     try {
       const response = await api<CardId>(`cards/${id}`);
-      const { name } = response.data.card;
-      setCardName(name);
-      return name;
+      setCard(response.data);
+      return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
       setIsError(true);
@@ -47,7 +47,7 @@ export const useCardId = (id: number) => {
   }, [id]);
 
   return {
-    cardName,
+    card,
     fetchCardId,
     setIsLoading,
     isLoading,
