@@ -1,12 +1,9 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 import styles from './Layout.module.css';
+import { Layout as LayoutProps } from './type';
 
-type Layout = {
-  children: ReactNode;
-};
-
-export const Layout: FC<Layout> = ({ children }) => {
+export const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <div className={styles.layout}>
       <main className={styles.layout__main}>{children}</main>
