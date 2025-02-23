@@ -147,11 +147,12 @@ export const Collection: FC = () => {
               Remove
             </button>
             {cards.length > 0 && (
-              <ul className={styles.collection__cards}>
+              <ul>
                 {cards.map((card) => (
-                  <li key={card.id} className={styles.collection__card}>
+                  <li key={card.id} className={styles.collection__list__cards}>
                     <span>{card.name}</span>
                     <button
+                      className="spacing-xs-ml spacing-xs-mb"
                       aria-label={`Remove Card: ${name}`}
                       onClick={() => handleRemoveCard(id, card.id)}
                     >
@@ -181,7 +182,11 @@ export const Collection: FC = () => {
             }}
             placeholder="New collection name"
           />
-          <button onClick={handleConfirmEdit} disabled={!newCollectionName}>
+          <button
+            className="spacing-xs-ml"
+            onClick={handleConfirmEdit}
+            disabled={!newCollectionName}
+          >
             Confirm
           </button>
         </Modal>
