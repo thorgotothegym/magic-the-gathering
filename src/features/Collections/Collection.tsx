@@ -162,7 +162,9 @@ export const Collection: FC = () => {
             </button>
             <button
               aria-label={`change ${name.toUpperCase()}'s name to a new one`}
-              onClick={() => handleEditNameCollection(id)}
+              onClick={() => {
+                handleEditNameCollection(id);
+              }}
             >
               Edit
             </button>
@@ -173,10 +175,14 @@ export const Collection: FC = () => {
             >
               Remove
             </button>
-            <button onClick={() => handleOpenAddCardModal(id)}>
+            <button
+              aria-label="Add New Card"
+              onClick={() => handleOpenAddCardModal(id)}
+            >
               Add New Card
             </button>
             {cards.length > 0 && (
+              // TODO: Extract this to a new component
               <ul>
                 {cards.map((card) => (
                   <li key={card.id} className={styles.collection__list__cards}>
