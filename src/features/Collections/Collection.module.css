@@ -38,6 +38,9 @@
   border-radius: 5px;
   margin-bottom: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  ul li span {
+    font-size: small;
+  }
 }
 
 .collection__item__name {
@@ -58,4 +61,13 @@
 
 .collection__delete:hover {
   color: darkred;
+}
+
+.collection__favorite {
+  color: var(--primary-color);
+  border: 1px solid var(--border-favorite);
+}
+
+.collection__list__cards {
+  text-align: right;
 }

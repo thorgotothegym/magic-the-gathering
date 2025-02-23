@@ -8,37 +8,27 @@
   font-variation-settings: 'wdth' 100;
 
   --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
   --card: 0 0% 100%;
   --card-border: grey;
   --card-padding: 5px;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 240 5.9% 10%;
-  --primary-foreground: 0 0% 98%;
   --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
   --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 240 5.9% 10%;
+  --border-favorite: pink;
   --radius: 0.5rem;
+
+  --spacing-none: 0;
+  --spacing-n: 20px;
+  --spacing-s: 10px;
+  --spacing-xs: 5px;
 
   --bg-dark: rgba(0, 0, 0, 0.5);
   --bg-none: none;
   --bg-white: #fff;
 
-  --spacing-n: 20px;
-  --spacing-s: 10px;
-
   --border-radius: 8px;
-
+  --border-radius-card: 10px;
   --font-family: 'Roboto', sans-serif;
 }
 
@@ -46,4 +36,53 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+button {
+  font-family: var(--font-family);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: hsl(var(--secondary) / 0.9);
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+
+button.danger {
+  background-color: hsl(var(--destructive) / 0.9);
+  color: hsl(var(--destructive-foreground));
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+
+select {
+  font-family: var(--font-family);
+  padding: var(--spacing-xs);
+  margin: var(--spacing-xs);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+input select {
+  font-family: var(--font-family);
+  background-color: hsl(var(--secondary) / 0.9);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  margin: 0 var(--spacing-n) 0 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+.spacing-xs-ml {
+  margin-left: var(--spacing-xs);
+}
+.spacing-xs-mb {
+  margin-bottom: var(--spacing-xs);
 }

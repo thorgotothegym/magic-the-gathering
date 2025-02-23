@@ -122,30 +122,40 @@ export const Collection: FC = () => {
       </button>
       <ul className={styles.collection__list}>
         {collections.map(({ id, name, isFavorite, cards }) => (
-          <li key={id} className={styles.collection__item}>
+          <li
+            key={id}
+            className={`${styles.collection__item} ${isFavorite ? styles.collection__favorite : ''}`}
+          >
             <span className={styles.collection__item__name}>{name}</span>
-            <button onClick={() => toggleFavorite(id)} aria-label="favorite">
+            <button
+              onClick={() => toggleFavorite(id)}
+              aria-label={`Add ${name} to favorite`}
+            >
               {isFavorite ? '❤️' : '🤍'}
             </button>
             <button
-              aria-label="Edit"
+              aria-label={`change ${name.toUpperCase()}'s name to a new one`}
               onClick={() => handleEditNameCollection(id)}
             >
               Edit
             </button>
             <button
-              aria-label="Remove"
-              className={styles.collection__delete}
+              aria-label={`Remove ${name}`}
+              className={`${styles.collection__delete} danger`}
               onClick={() => handleRemoveCollection(id)}
             >
               Remove
             </button>
             {cards.length > 0 && (
-              <ul className={styles.collection__cards}>
+              <ul>
                 {cards.map((card) => (
-                  <li key={card.id} className={styles.collection__card}>
+                  <li key={card.id} className={styles.collection__list__cards}>
                     <span>{card.name}</span>
-                    <button onClick={() => handleRemoveCard(id, card.id)}>
+                    <button
+                      className="spacing-xs-ml spacing-xs-mb"
+                      aria-label={`Remove Card: ${name}`}
+                      onClick={() => handleRemoveCard(id, card.id)}
+                    >
                       Remove Card
                     </button>
                   </li>
@@ -159,10 +169,12 @@ export const Collection: FC = () => {
         <Modal
           isOpen={isModalOpenEdit}
           onClose={() => setIsModalOpenEdit(false)}
-          title="Edit Collection Name"
+          title={`What name do you want to give to this collection?`}
         >
           <input
             type="text"
+            maxLength={15}
+            minLength={4}
             value={newCollectionName}
             onChange={(event) => {
               const { value } = event.target;
@@ -170,7 +182,11 @@ export const Collection: FC = () => {
             }}
             placeholder="New collection name"
           />
-          <button onClick={handleConfirmEdit} disabled={!newCollectionName}>
+          <button
+            className="spacing-xs-ml"
+            onClick={handleConfirmEdit}
+            disabled={!newCollectionName}
+          >
             Confirm
           </button>
         </Modal>
@@ -183,11 +199,17 @@ export const Collection: FC = () => {
         >
           <input
             type="text"
+            maxLength={15}
+            minLength={4}
             value={newCollectionName}
-            onChange={(e) => setNewCollectionName(e.target.value)}
-            placeholder="Collection name"
+            onChange={(event) => {
+              const { value } = event.target;
+              setNewCollectionName(value);
+            }}
+            placeholder="Name of the new collection"
           />
           <button
+            className="spacing-xs-ml spacing-xs-mb"
             onClick={handleConfirmAddCollection}
             disabled={!newCollectionName}
           >
@@ -206,7 +228,12 @@ export const Collection: FC = () => {
             collection?
           </p>
           <button onClick={handleConfirmRemoveCollection}>Yes, Delete</button>
-          <button onClick={() => setIsModalOpenRemove(false)}>Cancel</button>
+          <button
+            className="danger"
+            onClick={() => setIsModalOpenRemove(false)}
+          >
+            Cancel
+          </button>
         </Modal>
       )}
     </div>

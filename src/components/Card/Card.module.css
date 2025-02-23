@@ -5,8 +5,12 @@
   & h3,
   p {
     text-align: center;
+    padding: var(--spacing-xs) 0 var(--spacing-xs) 0;
   }
   & img {
-    border-radius: 10px;
+    border-radius: var(--border-radius-card);
+  }
+  &:hover {
+    cursor: pointer;
   }
 }

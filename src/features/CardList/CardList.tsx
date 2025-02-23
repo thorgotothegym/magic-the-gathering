@@ -76,7 +76,10 @@ const CardList: FC = () => {
           onClose={() => setIsModalOpen(false)}
           title="Add Card to Collection"
         >
-          <p>Select a collection to add {selectedCard.name}:</p>
+          <p>
+            Which collection do you want to add{' '}
+            <strong>{selectedCard.name}</strong>? :
+          </p>
           <select
             onChange={(e) => setSelectedCollectionId(Number(e.target.value))}
           >
