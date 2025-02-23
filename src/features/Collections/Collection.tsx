@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { useCardId } from '@/hooks/useCardId';
 import { Collection as CollectionProps } from './type';
 import styles from './Collection.module.css';
 import {
+  addCardToCollection,
   removeCardFromCollection,
-  /*   addCardToCollection,
-  CardProps, */
 } from '@/hooks/useCollection';
 import { Modal } from '@/components/Modal/Modal';
+import { CardProps } from '@/components/Card/type';
 
 // TODO: Needs refactoring
 export const Collection: FC = () => {
@@ -22,8 +23,20 @@ export const Collection: FC = () => {
 
   const [newCollectionName, setNewCollectionName] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
   const [isModalOpenRemove, setIsModalOpenRemove] = useState(false);
+
+  const [newCardName, setNewCardName] = useState('');
+  const [isModalOpenAddCard, setIsModalOpenAddCard] = useState(false);
+
+  const {
+    card,
+    error,
+    isError: isErrorCardId,
+    isLoading: isLoadingCardId,
+    fetchCardId,
+  } = useCardId(Number(newCardName));
+
+  const isCardName = card?.card.name ? card?.card.name : '';
 
   const handleAddCollection = () => {
     setIsCreateModalOpen(true);
@@ -76,14 +89,28 @@ export const Collection: FC = () => {
     setCollections(updatedCollections);
   };
 
-  /*   const handleAddCard = (collectionId: number, card: CardProps) => {
+  const handleOpenAddCardModal = (id: number) => {
+    setSelectedCollectionId(id);
+    setIsModalOpenAddCard(true);
+  };
+
+  const handleAddCard = () => {
+    if (!card || !selectedCollectionId) return;
+
+    const cardData: CardProps = {
+      id: card.card.id,
+      name: card.card.name,
+      type: card.card.type,
+    };
+
     const updatedCollections = addCardToCollection(
       collections,
-      collectionId,
-      card
+      selectedCollectionId,
+      cardData
     );
     setCollections(updatedCollections);
-  }; */
+    setIsModalOpenAddCard(false);
+  };
 
   const handleRemoveCard = (collectionId: number, cardId: string) => {
     const updatedCollections = removeCardFromCollection(
@@ -135,7 +162,9 @@ export const Collection: FC = () => {
             </button>
             <button
               aria-label={`change ${name.toUpperCase()}'s name to a new one`}
-              onClick={() => handleEditNameCollection(id)}
+              onClick={() => {
+                handleEditNameCollection(id);
+              }}
             >
               Edit
             </button>
@@ -146,7 +175,14 @@ export const Collection: FC = () => {
             >
               Remove
             </button>
+            <button
+              aria-label="Add New Card"
+              onClick={() => handleOpenAddCardModal(id)}
+            >
+              Add New Card
+            </button>
             {cards.length > 0 && (
+              // TODO: Extract this to a new component
               <ul>
                 {cards.map((card) => (
                   <li key={card.id} className={styles.collection__list__cards}>
@@ -234,6 +270,47 @@ export const Collection: FC = () => {
           >
             Cancel
           </button>
+        </Modal>
+      )}
+      {isModalOpenAddCard && (
+        <Modal
+          isOpen={isModalOpenAddCard}
+          onClose={() => setIsModalOpenAddCard(false)}
+          title="Add New Card"
+        >
+          <p>Enter the 6 digits of the card: Example (386610)</p>
+          <input
+            type="number"
+            value={newCardName}
+            max={6}
+            min={6}
+            onChange={(event) => {
+              const { value } = event.target;
+              setNewCardName(value);
+            }}
+            placeholder="Card ID Number"
+          />
+          <button
+            onClick={fetchCardId}
+            disabled={isLoadingCardId || !newCardName}
+            className="spacing-xs-ml spacing-xs-mb"
+          >
+            {isLoadingCardId ? 'Searching...' : 'Search Card'}
+          </button>
+          <button
+            className="spacing-xs-ml spacing-xs-mb"
+            onClick={handleAddCard}
+            disabled={!isCardName}
+          >
+            Add
+          </button>
+          <p className={`${isCardName ? styles.collection__add_card : ''}`}>
+            {isCardName ? `${isCardName}` : ''}
+          </p>
+          {isErrorCardId &&
+            error?.message &&
+            error.message.length > 0 &&
+            (isCardName ? `${isCardName}` : '')}
         </Modal>
       )}
     </div>

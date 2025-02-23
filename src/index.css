@@ -76,6 +76,16 @@ input select {
   margin: 0 var(--spacing-n) 0 0;
 }
 
+input[type='number'] {
+  font-family: var(--font-family);
+  width: 40%;
+  background-color: hsl(var(--secondary) / 0.9);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  margin: 0 var(--spacing-n) var(--spacing-n) 0;
+}
+
 ul li {
   list-style: none;
 }
