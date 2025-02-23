@@ -52,10 +52,6 @@
 }
 
 .collection__delete {
-  background: none;
-  border: none;
-  color: red;
-  font-size: 16px;
   cursor: pointer;
 }
 
@@ -70,4 +66,12 @@
 
 .collection__list__cards {
   text-align: right;
+}
+
+.collection__add_card {
+  border: 1px solid var(--primary-color);
+}
+
+.collection__add_card__not_found {
+  border: 1px solid hsl(var(--destructive));
 }
