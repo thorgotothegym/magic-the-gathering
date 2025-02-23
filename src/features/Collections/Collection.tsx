@@ -31,7 +31,7 @@ export const Collection: FC = () => {
   const {
     card,
     error,
-    isError,
+    isError: isErrorCardId,
     isLoading: isLoadingCardId,
     fetchCardId,
   } = useCardId(Number(newCardName));
@@ -272,26 +272,39 @@ export const Collection: FC = () => {
           onClose={() => setIsModalOpenAddCard(false)}
           title="Add New Card"
         >
+          <p>Enter the 6 digits of the card: Example (386610)</p>
           <input
-            type="text"
+            type="number"
             value={newCardName}
+            max={6}
+            min={6}
             onChange={(event) => {
               const { value } = event.target;
               setNewCardName(value);
             }}
-            placeholder="Card name"
+            placeholder="Card ID Number"
           />
           <button
             onClick={fetchCardId}
             disabled={isLoadingCardId || !newCardName}
+            className="spacing-xs-ml spacing-xs-mb"
           >
             {isLoadingCardId ? 'Searching...' : 'Search Card'}
-            {}
           </button>
-          {isCardName}
-          <button onClick={handleAddCard} disabled={!isCardName}>
+          <button
+            className="spacing-xs-ml spacing-xs-mb"
+            onClick={handleAddCard}
+            disabled={!isCardName}
+          >
             Add
           </button>
+          <p className={`${isCardName ? styles.collection__add_card : ''}`}>
+            {isCardName ? `${isCardName}` : ''}
+          </p>
+          {isErrorCardId &&
+            error?.message &&
+            error.message.length > 0 &&
+            (isCardName ? `${isCardName}` : '')}
         </Modal>
       )}
     </div>
