@@ -5,10 +5,10 @@ import { Collection as CollectionProps } from './type';
 import styles from './Collection.module.css';
 import {
   addCardToCollection,
-  CardProps,
   removeCardFromCollection,
 } from '@/hooks/useCollection';
 import { Modal } from '@/components/Modal/Modal';
+import { CardProps } from '@/components/Card/type';
 
 // TODO: Needs refactoring
 export const Collection: FC = () => {
@@ -94,13 +94,22 @@ export const Collection: FC = () => {
     setIsModalOpenAddCard(true);
   };
 
-  const handleAddCard = (collectionId: number, card?: CardProps) => {
+  const handleAddCard = () => {
+    if (!card || !selectedCollectionId) return;
+
+    const cardData: CardProps = {
+      id: card.card.id,
+      name: card.card.name,
+      type: card.card.type,
+    };
+
     const updatedCollections = addCardToCollection(
       collections,
-      collectionId,
-      card
+      selectedCollectionId,
+      cardData
     );
     setCollections(updatedCollections);
+    setIsModalOpenAddCard(false);
   };
 
   const handleRemoveCard = (collectionId: number, cardId: string) => {
@@ -280,10 +289,7 @@ export const Collection: FC = () => {
             {}
           </button>
           {isCardName}
-          <button
-            onClick={() => handleAddCard(Number(newCardName))}
-            disabled={!isCardName}
-          >
+          <button onClick={handleAddCard} disabled={!isCardName}>
             Add
           </button>
         </Modal>
