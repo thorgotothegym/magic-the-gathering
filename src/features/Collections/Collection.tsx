@@ -1,11 +1,12 @@
 import { FC, useState } from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { useCardId } from '@/hooks/useCardId';
 import { Collection as CollectionProps } from './type';
 import styles from './Collection.module.css';
 import {
+  addCardToCollection,
+  CardProps,
   removeCardFromCollection,
-  /*   addCardToCollection,
-  CardProps, */
 } from '@/hooks/useCollection';
 import { Modal } from '@/components/Modal/Modal';
 
@@ -22,8 +23,20 @@ export const Collection: FC = () => {
 
   const [newCollectionName, setNewCollectionName] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
   const [isModalOpenRemove, setIsModalOpenRemove] = useState(false);
+
+  const [newCardName, setNewCardName] = useState('');
+  const [isModalOpenAddCard, setIsModalOpenAddCard] = useState(false);
+
+  const {
+    card,
+    error,
+    isError,
+    isLoading: isLoadingCardId,
+    fetchCardId,
+  } = useCardId(Number(newCardName));
+
+  const isCardName = card?.card.name ? card?.card.name : '';
 
   const handleAddCollection = () => {
     setIsCreateModalOpen(true);
@@ -76,14 +89,19 @@ export const Collection: FC = () => {
     setCollections(updatedCollections);
   };
 
-  /*   const handleAddCard = (collectionId: number, card: CardProps) => {
+  const handleOpenAddCardModal = (id: number) => {
+    setSelectedCollectionId(id);
+    setIsModalOpenAddCard(true);
+  };
+
+  const handleAddCard = (collectionId: number, card?: CardProps) => {
     const updatedCollections = addCardToCollection(
       collections,
       collectionId,
       card
     );
     setCollections(updatedCollections);
-  }; */
+  };
 
   const handleRemoveCard = (collectionId: number, cardId: string) => {
     const updatedCollections = removeCardFromCollection(
@@ -145,6 +163,9 @@ export const Collection: FC = () => {
               onClick={() => handleRemoveCollection(id)}
             >
               Remove
+            </button>
+            <button onClick={() => handleOpenAddCardModal(id)}>
+              Add New Card
             </button>
             {cards.length > 0 && (
               <ul>
@@ -233,6 +254,37 @@ export const Collection: FC = () => {
             onClick={() => setIsModalOpenRemove(false)}
           >
             Cancel
+          </button>
+        </Modal>
+      )}
+      {isModalOpenAddCard && (
+        <Modal
+          isOpen={isModalOpenAddCard}
+          onClose={() => setIsModalOpenAddCard(false)}
+          title="Add New Card"
+        >
+          <input
+            type="text"
+            value={newCardName}
+            onChange={(event) => {
+              const { value } = event.target;
+              setNewCardName(value);
+            }}
+            placeholder="Card name"
+          />
+          <button
+            onClick={fetchCardId}
+            disabled={isLoadingCardId || !newCardName}
+          >
+            {isLoadingCardId ? 'Searching...' : 'Search Card'}
+            {}
+          </button>
+          {isCardName}
+          <button
+            onClick={() => handleAddCard(Number(newCardName))}
+            disabled={!isCardName}
+          >
+            Add
           </button>
         </Modal>
       )}
