@@ -70,8 +70,8 @@ button.danger {
 
 select {
   font-family: var(--font-family);
-  padding: 0.5rem;
-  margin: 0.5rem;
+  padding: var(--spacing-xs);
+  margin: var(--spacing-xs);
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
