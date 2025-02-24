@@ -10,7 +10,6 @@ import {
 import { Modal } from '@/components/Modal/Modal';
 import { CardProps } from '@/components/Card/type';
 
-// TODO: Needs refactoring
 export const Collection: FC = () => {
   const [collections, setCollections] = useLocalStorage<CollectionProps[]>(
     'collections',
@@ -34,7 +33,7 @@ export const Collection: FC = () => {
     isError: isErrorCardId,
     isLoading: isLoadingCardId,
     fetchCardId,
-  } = useCardId(Number(newCardName));
+  } = useCardId();
 
   const isCardName = card?.card.name ? card?.card.name : '';
 
@@ -291,7 +290,7 @@ export const Collection: FC = () => {
             placeholder="Card ID Number"
           />
           <button
-            onClick={fetchCardId}
+            onClick={() => fetchCardId(Number(newCardName))}
             disabled={isLoadingCardId || !newCardName}
             className="spacing-xs-ml spacing-xs-mb"
           >

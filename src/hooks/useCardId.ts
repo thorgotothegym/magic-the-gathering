@@ -17,7 +17,7 @@ export type useCardIdResponse = {
   card: Card;
 };
 
-export const useCardId = (id: number) => {
+export const useCardId = () => {
   const [card, setCard] = useState<useCardIdResponse>();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ export const useCardId = (id: number) => {
 
   const [error, setError] = useState<Error>();
 
-  const fetchCardId = async () => {
+  const fetchCardId = async (id: number) => {
     setIsLoading(true);
 
     try {
@@ -44,10 +44,6 @@ export const useCardId = (id: number) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchCardId();
-  }, [id]);
 
   return {
     card,
