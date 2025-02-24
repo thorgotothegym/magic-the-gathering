@@ -1,6 +1,6 @@
 import { api } from '@/services/api';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type Error = {
   axiosError: AxiosError;
